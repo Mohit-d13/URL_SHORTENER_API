@@ -1,0 +1,12 @@
+# Virtual Environment
+urlvenv/
+
+# Environment Variable file
+.env
+
+# Python cache file
+__pycache__
+*.pyc
+
+# todo list
+todo.txt
