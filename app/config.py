@@ -4,11 +4,11 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Settings class to load and validate environment variables from .env file
 class Settings(BaseSettings):
-    db_username: str
-    db_password: str
-    db_host: str
-    db_port: int
-    db_name: str
+    db_username: str | None = None
+    db_password: str | None = None
+    db_host: str | None = None
+    db_port: int | None = None
+    db_name: str | None = None
     secret_key: str
     algorithm: str
     access_token_expire_minutes: int = 30
