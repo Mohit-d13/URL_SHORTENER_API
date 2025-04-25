@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     db_name: str
     secret_key: str
     algorithm: str
-    access_token_expire_minutes: int
+    access_token_expire_minutes: int = 30
     
     model_config = SettingsConfigDict(env_file=".env")
 
@@ -22,11 +22,19 @@ def get_settings():
 
 settings = get_settings()
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
-
-if not DATABASE_URL:
-    DATABASE_URL = f"postgresql://{settings.db_username}:{settings.db_password}@{settings.db_host}:{settings.db_port}/{settings.db_name}"
-
-else:
-    if DATABASE_URL.startswith("postgres://"):
-        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+def get_database_url():
+    # First check for Render's DATABASE_URL
+    database_url = os.environ.get("DATABASE_URL")
+    
+    if database_url:
+        # Fix for Render's postgres:// vs postgresql://
+        if database_url.startswith("postgres://"):
+            database_url = database_url.replace("postgres://", "postgresql://", 1)
+        return database_url
+    
+    # Fall back to constructing from individual settings
+    if settings.db_username and settings.db_password and settings.db_host and settings.db_name:
+        return f"postgresql://{settings.db_username}:{settings.db_password}@{settings.db_host}:{settings.db_port or '5432'}/{settings.db_name}"
+    
+    # If we get here, we don't have database configuration
+    raise ValueError("No database configuration found. Set DATABASE_URL or individual DB_ environment variables.")
