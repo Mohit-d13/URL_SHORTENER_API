@@ -15,6 +15,19 @@ router = APIRouter(
     tags=["users"],
 )
 
+# signup route for user registration
+@router.post("/signup/", status_code=201, response_model=UserRead)
+async def signup(user: UserCreate, session: SessionDep):
+    if utils.get_user_from_db(user.username, session) is not None:
+        raise HTTPException(status_code=400, detail="Username is already registered")
+    
+    user.password = utils.get_hash_password(user.password)
+    user_db = User.model_validate(user)
+    session.add(user_db)
+    session.commit()
+    session.refresh(user_db)
+    return user_db
+
 # login route for user authentication
 @router.post("/login/")
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], session: SessionDep) -> Token:
@@ -36,21 +49,8 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], sess
     )
     return Token(access_token=access_token, token_type="bearer")
 
-# signup route for user registration
-@router.post("/signup/", status_code=201, response_model=UserRead)
-async def signup(user: UserCreate, session: SessionDep):
-    if utils.get_user_from_db(user.username, session) is not None:
-        raise HTTPException(status_code=400, detail="Username is already registered")
-    
-    user.password = utils.get_hash_password(user.password)
-    user_db = User.model_validate(user)
-    session.add(user_db)
-    session.commit()
-    session.refresh(user_db)
-    return user_db
-
 # get self profile information
-@router.get("/users/me")
+@router.get("/users/me/", response_model=UserRead)
 async def read_users_me(current_user: CurrentUserDep):
     return current_user
     

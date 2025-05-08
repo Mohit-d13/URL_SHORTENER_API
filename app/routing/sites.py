@@ -73,7 +73,7 @@ def get_url_info(url_key: str, session: SessionDep, current_user: CurrentUserDep
 
 # returns original website url with url shorten key
 @router.get("/{url_key}/")
-def get_target_url(url_key: str, request: Request, session: SessionDep, current_user: CurrentUserDep):
+def get_target_url(url_key: str, request: Request, session: SessionDep):
     data = session.get(Site, url_key) 
     if not data:
         raise HTTPException(status_code=404, detail="URL not found")

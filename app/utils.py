@@ -4,7 +4,6 @@ import string
 from user_agents import parse
 from sqlmodel import select
 from .models import User
-from .schemas import UserRead
 
 
 # This is a passlib helper class that provides password hashing and verification with bcrypt algorithm.
