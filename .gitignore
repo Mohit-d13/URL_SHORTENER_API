@@ -10,3 +10,6 @@ __pycache__
 
 # todo list
 todo.txt
+
+# test cache
+.pytest_cache/

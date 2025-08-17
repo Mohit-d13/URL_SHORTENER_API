@@ -1,19 +1,16 @@
-from passlib.context import CryptContext
+import bcrypt
 from random import choices
 import string
 from user_agents import parse
 from sqlmodel import select
 from .models import User
 
-
-# This is a passlib helper class that provides password hashing and verification with bcrypt algorithm.
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Return decode str hashed password with bcrypt algo from password in binary and rand salt
+def get_hash_password(password):
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
-
-def get_hash_password(password):
-    return pwd_context.hash(password)
+    return bcrypt.checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
 
 def generate_unique_key(length):
     return ''.join(choices(string.ascii_letters + string.digits, k=length))
