@@ -17,6 +17,7 @@ class SiteRead(SiteBase):
     created_at: datetime
     total_clicks: int = Field(default=0)
     clicks_detail: List[dict] = Field(default_factory=list)
+    user: "UserBase"
 
     
 #============================= User Model =============================
@@ -24,15 +25,19 @@ class SiteRead(SiteBase):
 class UserBase(SQLModel):
     username: str = Field(nullable=False, unique=True)
     email: str = Field(nullable=False, unique=True)
-    first_name: str | None = Field(max_length=50, default=None)
-    last_name: str | None = Field(max_length=50, default=None)
        
 class UserCreate(UserBase):
     password: str = Field(nullable=False)
+
+class UserUpdate(BaseModel):
+    first_name: str | None = Field(max_length=50, default=None)
+    last_name: str | None = Field(max_length=50, default=None)
     
 class UserRead(UserBase):
     id: int
     active: bool
+    first_name: str | None = Field(max_length=50, default=None)
+    last_name: str | None = Field(max_length=50, default=None)
     created_at: datetime
     updated_at: datetime
 

@@ -11,11 +11,12 @@ from ..utils import generate_unique_key, get_browser_info
 
 
 router = APIRouter(
+    prefix='/urls',
     tags=["sites"],
 )
 
 # Create shorten url key
-@router.post("/sites/", status_code=201, response_model=SiteRead)
+@router.post("/", status_code=201, response_model=SiteRead)
 def create_url(url: SiteCreate, session: SessionDep, current_user: CurrentUserDep):
     while True:
         unique_key = generate_unique_key(url.length)
@@ -35,13 +36,13 @@ def create_url(url: SiteCreate, session: SessionDep, current_user: CurrentUserDe
 
 
 # Get all sites created by user
-@router.get("/sites/all/")
+@router.get("/all/", response_model=List[SiteRead])
 def read_all_sites(
     session: SessionDep,
     current_user: CurrentUserDep,
     offset: int = 0,
     limit: Annotated[int, Query(le=100)] = 100,
-    ) -> List[SiteRead]:
+    ):
     statement = select(Site).where(Site.user_id == current_user.id).offset(offset).limit(limit)
     data = session.exec(statement).all()
     if not data:
@@ -49,9 +50,8 @@ def read_all_sites(
     
     return data
 
-# Get sites
-# data analytics by url_key
-@router.get("/sites/info/{url_key}/", response_model=SiteRead)
+# Get sites data analytics by url_key
+@router.get("/info/{url_key}/", response_model=SiteRead)
 def get_url_info(url_key: str, session: SessionDep, current_user: CurrentUserDep):
     data = session.get(Site, url_key)
     if not data:
@@ -68,7 +68,8 @@ def get_url_info(url_key: str, session: SessionDep, current_user: CurrentUserDep
                 "timestamp": click.timestamp,
                 "browser": get_browser_info(click.user_agent)
                 }
-            for click in data.clicks]
+            for click in data.clicks],
+        user=current_user
         )
 
 # returns original website url with url shorten key
@@ -94,4 +95,4 @@ def delete_url(url_key: str, session: SessionDep, current_user: CurrentUserDep):
         
     session.delete(data)
     session.commit()   
-    return {"ok": True}
+    return
