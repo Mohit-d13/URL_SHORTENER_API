@@ -27,7 +27,7 @@ Or try at: [https://url-shortener-api-qjgk.onrender.com/redoc](https://url-short
 
 ## 👷‍♂️ Application Architecture
 
-[image](<img width="1297" height="1050" alt="Image" src="https://github.com/user-attachments/assets/5aa4b6c4-05b7-4df9-8a1d-d2cd1f83f448" />)
+<img width="1297" height="1050" alt="localhost_8000_docs" src="https://github.com/user-attachments/assets/35a54a1e-0c10-422b-891a-8d4d72572763" />
 
 The URL Shortener API is built with FastAPI and uses PostgreSQL as its database for storing URL mappings and metadata. Database migrations are managed with Alembic, ensuring smooth schema updates across environments. The project includes a robust testing setup using Pytest and FastAPI’s TestClient to validate routes, database operations, and edge cases. It is fully containerized with Docker and orchestrated using Docker Compose, making it easy to deploy and scale across any environments.
 
@@ -51,7 +51,7 @@ To spin up the project, simply generate a secret key, create .env file, install 
    DB_NAME="database_name" 
    SECRET_KEY="your_secret_key"    
    ACCESS_TOKEN_EXPIRE_MINUTES=30
-   DATABASE_URL="postgresql://your_username:your_password@db:5432/database_name
+   DATABASE_URL="postgresql://your_username:your_password@db:5432/database_name"
    ```
 
 3. Clone the repository:
