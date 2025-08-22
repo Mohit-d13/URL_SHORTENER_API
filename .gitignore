@@ -1,5 +1,5 @@
 # Virtual Environment
-urlvenv/
+urlenv/
 
 # Environment Variable file
 .env
@@ -12,5 +12,4 @@ __pycache__
 todo.txt
 
 # test cache
-.pytest_cache
 .pytest_cache/

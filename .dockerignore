@@ -1,0 +1,14 @@
+.pytest_cache/
+
+__pycache__ 
+*.pyc
+
+urlenv/
+
+.env
+
+.dockerignore
+
+.gitignore
+
+todo.txt

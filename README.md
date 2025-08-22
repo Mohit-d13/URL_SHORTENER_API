@@ -1,14 +1,23 @@
 # URL Shortener API
 
-## Introduction
+## 📑 Introduction
 
 Welcome to the URL Shortener API, a robust and scalable solution designed to transform lengthy URLs into concise, shareable links. This project addresses the common challenge of sharing unwieldy URLs across platforms where character count matters, such as social media, messaging applications, and email communications.
 
 Built with modern web development technologies, this API provides not only basic URL shortening capabilities but also advanced features like click analytics, user authentication, and custom URL slug creation. The combination of FastAPI's asynchronous performance with PostgreSQL's reliability creates a service that is both lightning-fast and dependable.
 
-Whether you're looking to integrate URL shortening into your own application, analyze click-through rates for marketing campaigns, or simply make your links more manageable, this API offers a comprehensive solution that balances simplicity with powerful functionality.
+## 📋 Table of Contents
 
-The project follows industry best practices including comprehensive API documentation, database migrations for version control, and secure authentication mechanisms. It's designed to be easily deployable and maintainable, making it suitable for both personal projects and production environments.
+- [Introduction](#-introduction)
+- [Live Demo](#-live-demo)
+- [Application Architecture](#️-application-architecture)
+- [Features](#-features)
+- [API Endpoints Overview](#-api-endpoints-overview)
+- [Technologies Used](#-technologies-used)
+- [Live Deployment Setup](#-live-deployment-setup)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Contact](#-contact)
 
 ## 🚀 Live Demo
 
@@ -16,21 +25,52 @@ The API is currently live at: [https://url-shortener-api-qjgk.onrender.com/docs]
 
 Or try at: [https://url-shortener-api-qjgk.onrender.com/redoc](https://url-shortener-api-qjgk.onrender.com/redoc)
 
+## 👷‍♂️ Application Architecture
 
+[image](<img width="1297" height="1050" alt="Image" src="https://github.com/user-attachments/assets/5aa4b6c4-05b7-4df9-8a1d-d2cd1f83f448" />)
 
+The URL Shortener API is built with FastAPI and uses PostgreSQL as its database for storing URL mappings and metadata. Database migrations are managed with Alembic, ensuring smooth schema updates across environments. The project includes a robust testing setup using Pytest and FastAPI’s TestClient to validate routes, database operations, and edge cases. It is fully containerized with Docker and orchestrated using Docker Compose, making it easy to deploy and scale across any environments.
 
-## 📋 Table of Contents
+## 🔧 Development Setup
 
-- [Introduction](#-introduction)
-- [Live Demo](#-live-demo)
-- [Features](#-features)
-- [Technologies Used](#technologies-used)
-- [Websocket Configuration](#websocket-configuration)
-- [Setup and Installation](#setup-and-installation)
-- [Usage](#usage)
-- [File Upload Process](#file-upload-process)
-- [License](#license)
-- [Acknowledgements](#acknowledgements)
+To spin up the project, simply generate a secret key, create .env file, install Docker Desktop and then run the following commands:
+
+1. To genrate a random secret key use this command and copy the output to variable `SECRET_KEY` in your `.env` file:
+
+   ```bash
+   openssl rand -hex 32
+   ```
+
+2. Create a `.env` file in the project root:
+
+   ```.env
+   DB_USERNAME="your_username"
+   DB_PASSWORD="your_password"
+   DB_HOST="localhost"
+   DB_PORT=5432
+   DB_NAME="database_name" 
+   SECRET_KEY="your_secret_key"    
+   ACCESS_TOKEN_EXPIRE_MINUTES=30
+   DATABASE_URL="postgresql://your_username:your_password@db:5432/database_name
+   ```
+
+3. Clone the repository:
+
+   ```bash
+   git clone https://github.com/mohit-d13/url-shortener-api.git
+   ```
+
+4. Go inside project directory:
+
+   ```bash
+   cd URL_SHORTENER_API
+   ```
+
+5. Run docker compose command:
+
+   ```bash
+   docker compose up
+   ```
 
 ## ✨ Features
 
@@ -40,6 +80,8 @@ Or try at: [https://url-shortener-api-qjgk.onrender.com/redoc](https://url-short
 - User authentication and management
 - REST API with comprehensive documentation
 - Database migrations using Alembic
+- Unit testing with pytest and Testclient
+- Containerized with docker
 
 ## 📘 API Endpoints Overview
 
@@ -57,69 +99,15 @@ Or try at: [https://url-shortener-api-qjgk.onrender.com/redoc](https://url-short
 - `GET /{url_key}`: Redirect to the original URL
 - `DELETE /{url_key}`: Delete a URL
 
-## 🗄️ Database Schema
-
-- **Site Table**: Stores mapping between short and original URLs
-- **Click Table**: Tracks click analytics for each short URL
-- **User Table**: Manages user authentication and permissions
-
 ## 🧠 Technologies Used
 
-- **FastAPI**: Web framework
+- **FastAPI**: Web Api framework
 - **PostgreSQL**: Database
-- **SQLAlchemy**: ORM layer
 - **Alembic**: Database migrations tool
-- **PyJWT**: Token-based authentication
+- **Pytest**: Automated Tests
 - **User-Agent Parser**: For Tracking user device/browser
+- **Docker**: Containerized development and deployment
 - **Render**: Live deployment website
-
-
-## 🔧 Local Development Setup
-
-### Prerequisites
-
-- Python 3.8+
-- PostgreSQL
-- Git
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/mohit-d13/url-shortener-api.git
-   ```
-
-2. Create and activate a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/Scripts/activate  # On Mac: venv/bin/activate 
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Create a `.env` file in the project root:
-   ```
-   DB_USERNAME=your_username
-   DB_PASSWORD=your_password
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_NAME=database_name
-   SECRET_KEY=your_secret_key
-   ACCESS_TOKEN_EXPIRE_MINUTES=30
-   ```
-
-5. Run database migrations:
-   ```bash
-   alembic upgrade head
-   ```
-
-6. Start the development server:
-   ```bash
-   fastapi dev app/main.py
-   ```
 
 ## 🚀 Live Deployment Setup
 
