@@ -28,8 +28,7 @@ Or try at: [https://url-shortener-api-qjgk.onrender.com/redoc](https://url-short
 ## 👷‍♂️ Application Architecture
 
 =======
-<img width="1297" height="1050" alt="localhost_8000_docs" src="https://github.com/user-attachments/assets/35a54a1e-0c10-422b-891a-8d4d72572763" />
->>>>>>> 112a55b16a1bdd4bb8b6ac7bf527b7b942a6e5e2
+![Docs_Image](<img width="1297" height="1050" alt="localhost_8000_docs" src="https://github.com/user-attachments/assets/35a54a1e-0c10-422b-891a-8d4d72572763" />)
 
 The URL Shortener API is built with FastAPI and uses PostgreSQL as its database for storing URL mappings and metadata. Database migrations are managed with Alembic, ensuring smooth schema updates across environments. The project includes a robust testing setup using Pytest and FastAPI’s TestClient to validate routes, database operations, and edge cases. It is fully containerized with Docker and orchestrated using Docker Compose, making it easy to deploy and scale across any environments.
 
@@ -37,13 +36,25 @@ The URL Shortener API is built with FastAPI and uses PostgreSQL as its database 
 
 To spin up the project, simply generate a secret key, create .env file, install Docker Desktop and then run the following commands:
 
-1. To genrate a random secret key use this command and copy the output to variable `SECRET_KEY` in your `.env` file:
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/mohit-d13/url-shortener-api.git
+   ```
+
+2. Go inside project directory:
+
+   ```bash
+   cd URL_SHORTENER_API
+   ```
+
+3. Genrate a random secret key use this command and copy the output to variable `SECRET_KEY` in your `.env` file:
 
    ```bash
    openssl rand -hex 32
    ```
 
-2. Create a `.env` file in the project root:
+4. Create a `.env` file in the project root:
 
    ```.env
    DB_USERNAME="your_username"
@@ -54,18 +65,6 @@ To spin up the project, simply generate a secret key, create .env file, install 
    SECRET_KEY="your_secret_key"    
    ACCESS_TOKEN_EXPIRE_MINUTES=30
    DATABASE_URL="postgresql://your_username:your_password@db:5432/database_name"
-   ```
-
-3. Clone the repository:
-
-   ```bash
-   git clone https://github.com/mohit-d13/url-shortener-api.git
-   ```
-
-4. Go inside project directory:
-
-   ```bash
-   cd URL_SHORTENER_API
    ```
 
 5. Run docker compose command:
