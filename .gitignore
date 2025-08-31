@@ -13,3 +13,7 @@ todo.txt
 
 # test cache
 .pytest_cache/
+
+# ssl secrets
+*.crt
+*.key

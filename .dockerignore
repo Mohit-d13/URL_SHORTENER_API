@@ -12,3 +12,6 @@ urlenv/
 .gitignore
 
 todo.txt
+
+*.crt
+*.key

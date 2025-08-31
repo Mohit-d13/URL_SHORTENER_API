@@ -27,14 +27,13 @@ Or try at: [https://url-shortener-api-qjgk.onrender.com/redoc](https://url-short
 
 ## 👷‍♂️ Application Architecture
 
-=======
-![Docs_Image](<img width="1297" height="1050" alt="localhost_8000_docs" src="https://github.com/user-attachments/assets/35a54a1e-0c10-422b-891a-8d4d72572763" />)
+![Image](https://github.com/user-attachments/assets/e7841723-5edd-4bc7-9082-b1870496970a)
 
-The URL Shortener API is built with FastAPI and uses PostgreSQL as its database for storing URL mappings and metadata. Database migrations are managed with Alembic, ensuring smooth schema updates across environments. The project includes a robust testing setup using Pytest and FastAPI’s TestClient to validate routes, database operations, and edge cases. It is fully containerized with Docker and orchestrated using Docker Compose, making it easy to deploy and scale across any environments.
+The URL Shortener API is built with FastAPI and uses PostgreSQL as its database for storing URL mappings and metadata. Database migrations are managed with Alembic, ensuring smooth schema updates across environments. The project includes a robust testing setup using Pytest and FastAPI’s TestClient to validate routes, database operations, and edge cases. It is fully containerized with Docker and orchestrated using Docker Compose, making it easy to deploy and scale across any environments. Reverse proxy handles ssl/tls handeshake and termination for secure communication with the help of Nginx which then forward the plain http to gunicorn a python http server.
 
 ## 🔧 Development Setup
 
-To spin up the project, simply generate a secret key, create .env file, install Docker Desktop and then run the following commands:
+To spin up this project run the following commands:
 
 1. Clone the repository:
 
@@ -48,13 +47,7 @@ To spin up the project, simply generate a secret key, create .env file, install 
    cd URL_SHORTENER_API
    ```
 
-3. Genrate a random secret key use this command and copy the output to variable `SECRET_KEY` in your `.env` file:
-
-   ```bash
-   openssl rand -hex 32
-   ```
-
-4. Create a `.env` file in the project root:
+3. Create a `.env` file in the project root:
 
    ```.env
    DB_USERNAME="your_username"
@@ -67,11 +60,33 @@ To spin up the project, simply generate a secret key, create .env file, install 
    DATABASE_URL="postgresql://your_username:your_password@db:5432/database_name"
    ```
 
-5. Run docker compose command:
+4. To genrate a random secret key use this command and copy the output to the variable `SECRET_KEY` in your `.env` file:
 
    ```bash
-   docker compose up
+   openssl rand -hex 32
    ```
+
+5. Generate a self signed certificate and key for ssl connection, provide neccessary information to generate the certificate:
+
+   ```bash
+   openssl req -x509 -newkey rsa:4096 -keyout private.key -out certificate.crt -days 365 -nodes -sha256
+   ```
+
+6. Copy the `.crt` and `.key` file into project dir `./proxy/ssl`
+
+   ```bash
+   cp .crt ./proxy/ssl
+   cp .key ./proxy/ssl
+   ```
+
+7. Run docker compose command:
+
+   ```bash
+   docker compose up --build
+   ```
+
+If you done the all the steps write your project should be running at `https://localhost:444`
+Note:- Your browser going show you not secure because the ssl certificate is self signed.
 
 ## ✨ Features
 
@@ -83,6 +98,7 @@ To spin up the project, simply generate a secret key, create .env file, install 
 - Database migrations using Alembic
 - Unit testing with pytest and Testclient
 - Containerized with docker
+- Nginx as reverse proxy for SSL Termination
 
 ## 📘 API Endpoints Overview
 
@@ -109,6 +125,8 @@ To spin up the project, simply generate a secret key, create .env file, install 
 - **User-Agent Parser**: For Tracking user device/browser
 - **Docker**: Containerized development and deployment
 - **Render**: Live deployment website
+- **Gunicorn**: Python http server
+- **Nginx**: Used as a reverse Proxy
 
 ## 🚀 Live Deployment Setup
 
