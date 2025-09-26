@@ -11,4 +11,5 @@ repos:
         name: Run pytest before commit
         entry: pytest tests/
         language: system
+        pass_filenames: false
         types: [python]
