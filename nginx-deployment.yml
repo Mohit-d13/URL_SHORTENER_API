@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy-deployment
+  labels:
+    app: proxy
+spec:
+  replicas: 2
+  selector:
+    matchlabels:
+      app: proxy
+  template:
+    metadata:
+      labels:
+        app: proxy
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:mainline
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+          volumeMounts:
+            - name: nginx-conf
+              mouthPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: ssl
+              mouthPath: /etc/nginx/ssl
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: nginx-configMap
+        - name: ssl
+          secret:
+            secretName: nginx-ssl

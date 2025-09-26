@@ -2,6 +2,7 @@ services:
   db:
     image: postgres:16-alpine
     container_name: postgresql_db
+    restart: always
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -10,21 +11,31 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5433:5432"
-      
+    heatlhcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
   webapp:
     build: .
     container_name: url_shortener_api
     env_file:
       - .env
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "8000:8000"
+    develop:
+      watch:
+        - action: rebuild
+          path: .
     command: gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
 
   proxy:
     image: nginx:mainline
-    container_name: nginx_ssl
+    container_name: nginx
     ports:
       - "81:80"
       - "444:443"
